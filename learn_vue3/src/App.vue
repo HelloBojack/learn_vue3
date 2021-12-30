@@ -1,13 +1,14 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import { reactive,shallowRef,ref,markRaw } from 'vue'
+import { reactive,shallowRef,ref,markRaw,defineAsyncComponent } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
 import MyTabs from './components/MyTabs.vue'
 import Home from './components/Home.vue'
 import About from './components/About.vue'
-import Contact from './components/Contact.vue'
-let currentTab = ref(Home)
+const  Contact = defineAsyncComponent(() => import('./components/Contact.vue'))
+
+let currentTab = ref(markRaw(Home))
 let currentTabName = ref('Home')
 let tabs=[
   {
@@ -41,7 +42,9 @@ const click = (e:{name:string,path:string,component:any})=>{
   </template>
   </MyTabs>
   <br>
-  <component :is="currentTab"></component>
+  <keep-alive>
+    <component :is="currentTab"></component>
+  </keep-alive>
   <!-- <HelloWorld :msg="msg" /> -->
 </template>
 
