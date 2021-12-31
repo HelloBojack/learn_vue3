@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
-  About
+  <div v-date="{ format: 'YYYY-MM-DD' }">{{ Date.now() }}</div>
 </template>
