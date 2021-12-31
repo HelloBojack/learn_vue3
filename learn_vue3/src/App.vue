@@ -9,6 +9,7 @@ import About from './components/About.vue'
 const  Contact = defineAsyncComponent(() => import('./components/Contact.vue'))
 const  Counter = defineAsyncComponent(() => import('./components/Counter/index.vue'))
 const  VModelComponent = defineAsyncComponent(() => import('./components/VModelComponent/index.vue'))
+const  ToRefs = defineAsyncComponent(() => import('./components/ToRefs/index.vue'))
 
 let currentTab = ref(markRaw(Home))
 let currentTabName = ref('Home')
@@ -37,6 +38,11 @@ let tabs=[
     name: 'VModelComponent',
     path: '/VModelComponent',
     component: VModelComponent
+  },
+  {
+    name: 'ToRefs',
+    path: '/ToRefs',
+    component: ToRefs
   },
 ]
 const click = (e:{name:string,path:string,component:any})=>{
