@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCounter, useTitle } from "./hooks";
 let { count, increment } = useCounter();
-let { titleRef, setTitle } = useTitle();
+let { setTitle } = useTitle();
 </script>
 <template>
   <div>

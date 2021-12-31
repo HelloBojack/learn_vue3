@@ -9,8 +9,14 @@ export const useCounter = function () {
 export const useTitle = () => {
   let titleRef = ref("");
   const setTitle = (title: string) => (titleRef.value = title);
-  watch(titleRef, (newTitle) => {
-    document.title = newTitle;
-  });
+  watch(
+    titleRef,
+    (newTitle) => {
+      document.title = newTitle;
+    }
+    // ,{
+    //   immediate: true,
+    // }
+  );
   return { titleRef, setTitle };
 };
