@@ -21,7 +21,6 @@ function dateFormat(fmt, date) {
   for (let k in opt) {
     ret = new RegExp("(" + k + "+)").exec(fmt);
     if (ret) {
-      console.log(ret[1], fmt, k, opt[k]);
       fmt = fmt.replace(
         ret[1],
         ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, "0")
@@ -32,8 +31,7 @@ function dateFormat(fmt, date) {
 }
 app.directive("date", {
   mounted(el, { value }) {
-    // console.log(el.innerHTML, value);
-    el.innerHTML = dateFormat("YYYY-MM-DD", el.innerHTML);
+    el.innerHTML = dateFormat(value.format, el.innerHTML);
   },
 });
 app.mount("#app");
