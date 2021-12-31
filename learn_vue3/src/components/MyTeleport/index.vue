@@ -3,7 +3,7 @@ import { ref } from "vue";
 let isShow = ref(false);
 </script>
 <template>
-  <button @click="isShow = true">modal!</button>
+  <button @click="isShow = true">open</button>
   <teleport to="body">
     <div v-if="isShow" class="modal">
       <div class="modal-content">I'm teleport modal</div>
