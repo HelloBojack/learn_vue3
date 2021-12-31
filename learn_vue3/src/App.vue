@@ -7,6 +7,7 @@ import MyTabs from './components/MyTabs.vue'
 import Home from './components/Home.vue'
 import About from './components/About.vue'
 const  Contact = defineAsyncComponent(() => import('./components/Contact.vue'))
+const  Counter = defineAsyncComponent(() => import('./components/Counter/index.vue'))
 
 let currentTab = ref(markRaw(Home))
 let currentTabName = ref('Home')
@@ -25,6 +26,11 @@ let tabs=[
     name: 'Contact',
     path: '/contact',
     component: Contact
+  },
+  {
+    name: 'Counter',
+    path: '/counter',
+    component: Counter
   }
 ]
 const click = (e:{name:string,path:string,component:any})=>{
