@@ -19,6 +19,9 @@ const ToRefs = defineAsyncComponent(
 const ScrollTab = defineAsyncComponent(
   () => import("./components/ScrollTab/index.vue")
 );
+const MyTeleport = defineAsyncComponent(
+  () => import("./components/MyTeleport/index.vue")
+);
 
 let currentTab = ref(markRaw(Home));
 let currentTabName = ref("Home");
@@ -57,6 +60,11 @@ let tabs = [
     name: "ScrollTab",
     path: "/ScrollTab",
     component: ScrollTab,
+  },
+  {
+    name: "MyTeleport",
+    path: "/MyTeleport",
+    component: MyTeleport,
   },
 ];
 const click = (e: { name: string; path: string; component: any }) => {
