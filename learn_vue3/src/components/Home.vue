@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-  let counter=ref(0)
+import Crud from "./Crud/index.vue";
+import KInput from "./common/KInput/index.vue";
 </script>
 <template>
   Home
-  <button @click="counter++" >{{counter}}</button>
+  <br />
+  <Crud>
+    <KInput />
+  </Crud>
 </template>
