@@ -5,9 +5,32 @@ import {
   Menu as IconMenu,
   Setting,
 } from "@element-plus/icons-vue";
+import { reactive, ref } from "vue";
 import request from "../server";
-// let list = await request.list();
-// console.log(list);
+import MyIcon from "@/components/common/my-icon/index.vue";
+let menuList = reactive([]);
+const getMenu = async () => {
+  let { menus } = await request.list();
+  menus
+    .filter((item) => item.type !== 2)
+    .forEach((element) => {
+      if (element.parentId) {
+        let parent = menus.find((item) => item.id + "" === element.parentId);
+
+        if (parent) {
+          if (!parent.children) {
+            parent.children = [];
+          }
+          parent.children.push(element);
+        }
+      } else {
+        menuList.push(element);
+      }
+    });
+  console.log(menuList);
+};
+getMenu();
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
@@ -24,31 +47,17 @@ const handleClose = (key: string, keyPath: string[]) => {
       @open="handleOpen"
       @close="handleClose"
     >
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon><location /></el-icon>
-          <span>Navigator One</span>
-        </template>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item one</el-menu-item>
-        <el-menu-item index="1-3">item three</el-menu-item>
-        <el-sub-menu index="1-4">
-          <template #title>item four</template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
+      <template v-for="(item, index) in menuList">
+        <el-sub-menu v-if="item.type == 0" :index="String(item.id)">
+          <template #title>
+            <!-- <my-icon :icon="item.icon"></my-icon> -->
+            <span>{{ item.name }}</span>
+          </template>
+          <template v-for="(item2, index2) in item.children">
+            <el-menu-item :index="item2.id">{{ item2.name }}</el-menu-item>
+          </template>
         </el-sub-menu>
-      </el-sub-menu>
-      <el-menu-item index="2">
-        <el-icon><icon-menu /></el-icon>
-        <span>Navigator Two</span>
-      </el-menu-item>
-      <el-menu-item index="3">
-        <el-icon><document /></el-icon>
-        <span>Navigator Three</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <el-icon><setting /></el-icon>
-        <span>Navigator Four</span>
-      </el-menu-item>
+      </template>
     </el-menu>
   </el-aside>
 </template>
