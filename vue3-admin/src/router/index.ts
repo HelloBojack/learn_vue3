@@ -5,7 +5,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "index",
-    component: () => import("../views/index.vue"),
+    component: () => import("../views/Layout/index.vue"),
+    children: [
+      {
+        path: "/",
+        name: "数据统计",
+        component: () => import("../views/Home/index.vue"),
+      },
+    ],
   },
   {
     path: "/:catchAll(.*)*",
@@ -20,7 +27,7 @@ for (const i in views) {
   delete views[i];
 }
 // TODO ALLVIEWS
-console.log(views);
+// console.log(views);
 
 const router = createRouter({
   history: createWebHistory(),
