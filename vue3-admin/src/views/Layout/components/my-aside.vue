@@ -16,7 +16,6 @@ const getMenu = async () => {
     .forEach((element) => {
       if (element.parentId) {
         let parent = menus.find((item) => item.id + "" === element.parentId);
-
         if (parent) {
           if (!parent.children) {
             parent.children = [];
@@ -54,7 +53,20 @@ const handleClose = (key: string, keyPath: string[]) => {
             <span>{{ item.name }}</span>
           </template>
           <template v-for="(item2, index2) in item.children">
-            <el-menu-item :index="item2.id">{{ item2.name }}</el-menu-item>
+            <el-sub-menu v-if="item2.type == 0" :index="String(item2.id)">
+              <template #title>
+                <!-- <my-icon :icon="item.icon"></my-icon> -->
+                <span>{{ item2.name }}</span>
+              </template>
+              <template v-for="(item3, index2) in item2.children">
+                <el-menu-item :index="String(item3.id)">
+                  {{ item3.name }}
+                </el-menu-item>
+              </template>
+            </el-sub-menu>
+            <el-menu-item v-else :index="String(item2.id)">
+              {{ item2.name }}
+            </el-menu-item>
           </template>
         </el-sub-menu>
       </template>
