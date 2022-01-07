@@ -11,8 +11,8 @@ import MyIcon from "@/components/common/my-icon/index.vue";
 import MenuHeader from "./menu-header.vue";
 
 const menuStore = useMenuStore();
-console.log(menuStore.menu);
 const menuList = computed(() => menuStore.menu);
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
@@ -25,30 +25,29 @@ const handleClose = (key: string, keyPath: string[]) => {
     <menu-header />
     <el-menu
       :router="true"
-      default-active="2"
       class="el-menu-vertical"
       @open="handleOpen"
       @close="handleClose"
     >
       <template v-for="(item, index) in menuList">
-        <el-sub-menu v-if="item.type == 0" :index="String(item.router)">
+        <el-sub-menu v-if="item.type == 0" :index="item.name">
           <template #title>
             <!-- <my-icon :icon="item.icon"></my-icon> -->
             <span>{{ item.name }}</span>
           </template>
           <template v-for="(item2, index2) in item.children">
-            <el-sub-menu v-if="item2.type == 0" :index="String(item2.router)">
+            <el-sub-menu v-if="item2.type == 0" :index="item2.name">
               <template #title>
                 <!-- <my-icon :icon="item.icon"></my-icon> -->
                 <span>{{ item2.name }}</span>
               </template>
               <template v-for="(item3, index2) in item2.children">
-                <el-menu-item :index="String(item3.router)">
+                <el-menu-item :index="item3.name" :route="item3.router">
                   {{ item3.name }}
                 </el-menu-item>
               </template>
             </el-sub-menu>
-            <el-menu-item v-else :index="String(item2.id)">
+            <el-menu-item v-else :index="item2.name" :route="item2.router">
               {{ item2.name }}
             </el-menu-item>
           </template>
