@@ -9,14 +9,10 @@ import { computed, reactive, ref } from "vue";
 import { useMenuStore } from "@/store/menu";
 import MyIcon from "@/components/common/my-icon/index.vue";
 import MenuHeader from "./menu-header.vue";
-let menuList = reactive([]);
-const getMenu = async () => {
-  const menuStore = useMenuStore();
-  // const menu = computed(() => menuStore.menu);
-  console.log(menuStore.menu);
-};
-getMenu();
 
+const menuStore = useMenuStore();
+console.log(menuStore.menu);
+const menuList = computed(() => menuStore.menu);
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };

@@ -43,7 +43,6 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const token = storage.get("token");
   if (token) {
-    console.log(to.path);
     if (to.path === "/login") {
       return "/";
     }

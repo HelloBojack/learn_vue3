@@ -2,12 +2,13 @@
 import { ref, reactive } from "vue";
 import type { ElForm } from "element-plus";
 import { useUserStore } from "@/store/user";
+import { useMenuStore } from "@/store/menu";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 
 const route = useRouter();
 const userStore = useUserStore();
-
+const menuStore = useMenuStore();
 const ruleFormRef = ref<InstanceType<typeof ElForm>>();
 
 const checkUsername = (rule: any, value: any, callback: any) => {
@@ -45,6 +46,8 @@ const submitForm = (formEl: InstanceType<typeof ElForm> | undefined) => {
         await userStore.login(ruleForm);
         // 用户信息
         await userStore.userInfo();
+        // 菜单
+        await menuStore.initMenu();
 
         route.push("/");
       } catch (err) {
