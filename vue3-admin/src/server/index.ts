@@ -1,7 +1,18 @@
 import axios from "axios";
+import storage from "@/util/storage";
 axios.defaults.timeout = 30000;
 axios.defaults.withCredentials = true;
 
+// Request
+axios.interceptors.request.use((config: any) => {
+  const token = storage.get("token") || "";
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
+  return config;
+});
+
+// response
 axios.interceptors.response.use(
   (res) => {
     const { code, data, message } = res.data;

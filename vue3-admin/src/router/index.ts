@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import storage from "@/util/storage";
 import type { RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
@@ -40,6 +41,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
+  const token = storage.get("token");
+  if (token) {
+  } else if (to.path !== "/login") {
+    return "/login";
+  }
   return;
 });
 

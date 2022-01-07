@@ -1,63 +1,51 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import type { ElForm } from "element-plus";
+import { useUserStore } from "@/store/user";
+import { ElMessage } from "element-plus";
+
+const userStore = useUserStore();
 
 const ruleFormRef = ref<InstanceType<typeof ElForm>>();
 
-const checkAge = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error("Please input the age"));
+const checkUsername = (rule: any, value: any, callback: any) => {
+  if (value === "") {
+    callback(new Error("Please input the username"));
+  } else {
+    callback();
   }
-  setTimeout(() => {
-    if (!Number.isInteger(value)) {
-      callback(new Error("Please input digits"));
-    } else {
-      if (value < 18) {
-        callback(new Error("Age must be greater than 18"));
-      } else {
-        callback();
-      }
-    }
-  }, 1000);
 };
 
 const validatePass = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("Please input the password"));
   } else {
-    if (ruleForm.checkPass !== "") {
-      if (!ruleFormRef.value) return;
-      ruleFormRef.value.validateField("checkPass", () => null);
-    }
-    callback();
-  }
-};
-const validatePass2 = (rule: any, value: any, callback: any) => {
-  if (value === "") {
-    callback(new Error("Please input the password again"));
-  } else if (value !== ruleForm.pass) {
-    callback(new Error("Two inputs don't match!"));
-  } else {
     callback();
   }
 };
 
 const ruleForm = reactive({
-  pass: "",
-  checkPass: "",
-  age: "",
+  username: "",
+  password: "",
 });
 
 const rules = reactive({
-  pass: [{ validator: validatePass, trigger: "blur" }],
-  checkPass: [{ validator: validatePass2, trigger: "blur" }],
-  age: [{ validator: checkAge, trigger: "blur" }],
+  username: [{ validator: checkUsername, trigger: "blur" }],
+  password: [{ validator: validatePass, trigger: "blur" }],
 });
 
 const submitForm = (formEl: InstanceType<typeof ElForm> | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
+      try {
+        // 登录 & Token
+        await userStore.login(ruleForm);
+        // 用户信息
+        await userStore.userInfo();
+      } catch (err) {
+        ElMessage.error(err);
+      }
       console.log("submit!");
     } else {
       console.log("error submit!");
@@ -73,37 +61,33 @@ const resetForm = (formEl: InstanceType<typeof ElForm> | undefined) => {
 </script>
 <template>
   <div>
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      label-width="120px"
-      class="demo-ruleForm"
-    >
-      <el-form-item label="Password" prop="pass">
-        <el-input
-          v-model="ruleForm.pass"
-          type="password"
-          autocomplete="off"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="Confirm" prop="checkPass">
-        <el-input
-          v-model="ruleForm.checkPass"
-          type="password"
-          autocomplete="off"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="Age" prop="age">
-        <el-input v-model.number="ruleForm.age"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm(ruleFormRef)"
-          >Submit</el-button
-        >
-        <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-      </el-form-item>
-    </el-form>
+    <div>
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForm"
+        status-icon
+        :rules="rules"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="Username" prop="username">
+          <el-input v-model="ruleForm.username" type="text"></el-input>
+        </el-form-item>
+        <el-form-item label="Password" prop="password">
+          <el-input
+            v-model="ruleForm.password"
+            type="password"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="submitForm(ruleFormRef)">
+            Submit
+          </el-button>
+          <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
