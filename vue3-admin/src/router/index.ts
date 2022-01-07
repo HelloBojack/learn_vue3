@@ -15,6 +15,11 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/Login/index.vue"),
+  },
+  {
     path: "/:catchAll(.*)*",
     name: "NotFound",
     component: () => import("../views/NotFound/index.vue"),
@@ -32,6 +37,10 @@ for (const i in views) {
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from) => {
+  return;
 });
 
 export default router;

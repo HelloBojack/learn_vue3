@@ -5,28 +5,15 @@ import {
   Menu as IconMenu,
   Setting,
 } from "@element-plus/icons-vue";
-import { reactive, ref } from "vue";
-import request from "../server";
+import { computed, reactive, ref } from "vue";
+import { useMenuStore } from "@/store/menu";
 import MyIcon from "@/components/common/my-icon/index.vue";
+import MenuHeader from "./menu-header.vue";
 let menuList = reactive([]);
 const getMenu = async () => {
-  let { menus } = await request.list();
-  menus
-    .filter((item) => item.type !== 2)
-    .forEach((element) => {
-      if (element.parentId) {
-        let parent = menus.find((item) => item.id + "" === element.parentId);
-        if (parent) {
-          if (!parent.children) {
-            parent.children = [];
-          }
-          parent.children.push(element);
-        }
-      } else {
-        menuList.push(element);
-      }
-    });
-  console.log(menuList);
+  const menuStore = useMenuStore();
+  // const menu = computed(() => menuStore.menu);
+  console.log(menuStore.menu);
 };
 getMenu();
 
@@ -39,6 +26,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 <template>
   <el-aside width="200px">
+    <menu-header />
     <el-menu
       :router="true"
       default-active="2"
@@ -47,19 +35,19 @@ const handleClose = (key: string, keyPath: string[]) => {
       @close="handleClose"
     >
       <template v-for="(item, index) in menuList">
-        <el-sub-menu v-if="item.type == 0" :index="String(item.id)">
+        <el-sub-menu v-if="item.type == 0" :index="String(item.router)">
           <template #title>
             <!-- <my-icon :icon="item.icon"></my-icon> -->
             <span>{{ item.name }}</span>
           </template>
           <template v-for="(item2, index2) in item.children">
-            <el-sub-menu v-if="item2.type == 0" :index="String(item2.id)">
+            <el-sub-menu v-if="item2.type == 0" :index="String(item2.router)">
               <template #title>
                 <!-- <my-icon :icon="item.icon"></my-icon> -->
                 <span>{{ item2.name }}</span>
               </template>
               <template v-for="(item3, index2) in item2.children">
-                <el-menu-item :index="String(item3.id)">
+                <el-menu-item :index="String(item3.router)">
                   {{ item3.name }}
                 </el-menu-item>
               </template>
