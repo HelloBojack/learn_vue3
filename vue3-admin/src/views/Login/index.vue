@@ -3,7 +3,9 @@ import { ref, reactive } from "vue";
 import type { ElForm } from "element-plus";
 import { useUserStore } from "@/store/user";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 
+const route = useRouter();
 const userStore = useUserStore();
 
 const ruleFormRef = ref<InstanceType<typeof ElForm>>();
@@ -43,6 +45,8 @@ const submitForm = (formEl: InstanceType<typeof ElForm> | undefined) => {
         await userStore.login(ruleForm);
         // 用户信息
         await userStore.userInfo();
+
+        route.push("/");
       } catch (err) {
         ElMessage.error(err);
       }

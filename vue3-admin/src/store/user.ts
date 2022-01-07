@@ -4,7 +4,8 @@ import api from "@/api";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
-    user: [],
+    userInfo: storage.get("userInfo") || {},
+    token: storage.get("token") || "",
   }),
   actions: {
     login(payload) {
