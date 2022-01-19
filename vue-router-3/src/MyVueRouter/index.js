@@ -1,5 +1,6 @@
 import install from './install'
 import HTML5History from './history/HTML5History'
+import HashHistory from './history/HashHistory'
 import createMatcher from './matcher'
 export default class VueRouter {
   constructor(options) {
@@ -14,10 +15,10 @@ export default class VueRouter {
     switch (this.mode) {
       case 'hash':
         // hash mode 多个 fallback
-        this.history = ''
+        this.history = new HashHistory(this)
         break;
       case 'history':
-        this.history = new HTML5History(this, options.base)
+        this.history = new HTML5History(this)
         break;
     }
   }
@@ -28,9 +29,10 @@ export default class VueRouter {
     }
     this.app = app
     const history = this.history
-    if (history instanceof HTML5History || history instanceof HashHistory) {
+    history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
+    // if (history instanceof HTML5History || history instanceof HashHistory) {
 
-    }
+    // }
   }
 }
 VueRouter.install = install
