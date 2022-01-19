@@ -5,13 +5,23 @@ function createRouteMap(routes, oldPathList, oldPathMap) {
   routes.forEach(route => {
     addRouteRecord(pathList, pathMap, route)
   })
+  return {
+    pathList,
+    pathMap
+  }
 
-  function addRouteRecord(pathList, pathMap, route) {
-    let { path, name, component } = route
+  function addRouteRecord(pathList, pathMap, route, parent) {
+    let { path, component } = route
+    path = parent ? `${parent.path}/${path}` : path
     let record = { path, component }
     if (!pathMap[path]) {
       pathList.push(path)
       pathMap[path] = record
+    }
+    if (route.children) {
+      route.children.forEach(child => {
+        addRouteRecord(pathList, pathMap, child, record)
+      })
     }
   }
 }

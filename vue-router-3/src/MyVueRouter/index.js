@@ -1,5 +1,6 @@
 import install from './install'
 import HTML5History from './history/HTML5History'
+import createMatcher from './matcher'
 export default class VueRouter {
   constructor(options) {
     this.app = null
