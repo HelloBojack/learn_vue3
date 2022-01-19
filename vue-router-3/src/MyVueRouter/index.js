@@ -1,12 +1,15 @@
 import install from './install'
 import HTML5History from './history/HTML5History'
 export default class VueRouter {
-  1
   constructor(options) {
     this.app = null
     this.apps = []
     this.options = options;
     this.mode = options.mode || 'hash'
+    // 匹配器
+    // match addRouter
+    this.matcher = createMatcher(options.routes || [])
+
     switch (this.mode) {
       case 'hash':
         // hash mode 多个 fallback

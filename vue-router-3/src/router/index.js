@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyVueRouter from '../MyVueRouter/index'
 import Home from '../views/Home.vue'
-
-Vue.use(VueRouter)
+// Vue.use 会调用 install 方法
+// Vue.use(VueRouter)
 Vue.use(MyVueRouter)
 
 const routes = [
@@ -22,11 +22,11 @@ const routes = [
   }
 ]
 
-export const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+// export const router = new VueRouter({
+//   mode: 'history',
+//   base: process.env.BASE_URL,
+//   routes
+// })
 export const myRouter = new MyVueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
