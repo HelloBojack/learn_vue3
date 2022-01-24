@@ -29,10 +29,15 @@ export default class VueRouter {
     }
     this.app = app
     const history = this.history
-    history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners)
+    history.transitionTo(history.getCurrentLocation(),
+      // setupListeners, setupListeners
+    )
     // if (history instanceof HTML5History || history instanceof HashHistory) {
 
     // }
+  }
+  match(location) {
+    return this.matcher.match(location)
   }
 }
 VueRouter.install = install

@@ -1,7 +1,18 @@
-function createRoute(record, location) {
+function formatMatch(record) {
+  let res = []
+  while (record) {
+    res.unshift(record)
+    record = record.parent
+  }
+  return res
+}
+export function createRoute(record, location) {
+  console.log('record', record);
   const route = {
     path: location.path || '/',
+    matched: record ? formatMatch(record) : []
   }
+
   return Object.freeze(route)
 }
 

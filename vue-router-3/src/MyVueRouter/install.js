@@ -11,7 +11,6 @@ export default function install(Vue) {
   // 所有组件添加 _myRouterRoot
   Vue.mixin({
     beforeCreate() {
-      console.log('this', this);
       // 如果有 router 属性，说明是根组件
       if (this.$options.myRouter) {
         this._myRouterRoot = this

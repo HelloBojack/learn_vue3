@@ -7,5 +7,7 @@ export default class History {
   }
   transitionTo(location, onComplete, onAbort) {
     const route = this.router.match(location, this.current)
+    console.log('route', route);
+    onComplete && onComplete(route)
   }
 };

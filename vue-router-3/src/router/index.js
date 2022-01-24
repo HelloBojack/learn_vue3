@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import MyVueRouter from '../MyVueRouter/index'
 import Home from '../views/Home.vue'
 // Vue.use 会调用 install 方法
-// Vue.use(VueRouter)
+Vue.use(VueRouter)
 Vue.use(MyVueRouter)
 
 const routes = [
@@ -18,7 +18,13 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    children: [
+      {
+        path: 'a',
+        name: 'about_a'
+      }
+    ]
   },
   {
     path: '/list',
@@ -33,13 +39,13 @@ const routes = [
   }
 ]
 
-// export const router = new VueRouter({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes
-// })
-export const myRouter = new MyVueRouter({
+export const router = new VueRouter({
   mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+export const myRouter = new MyVueRouter({
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

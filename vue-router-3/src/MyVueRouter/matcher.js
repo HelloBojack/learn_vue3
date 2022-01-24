@@ -1,3 +1,4 @@
+import { createRoute } from './utils/route'
 function createRouteMap(routes, oldPathList, oldPathMap) {
   let pathList = oldPathList || []
   let pathMap = oldPathMap || Object.create(null)
@@ -35,7 +36,12 @@ export default function createMatcher(routes) {
   // createRouteMap 生产一个纯路径数组，和一个路径组件映射Map
   const { pathList, pathMap } = createRouteMap(routes)
   // 匹配路由 
-  function match() {
+  function match(location) {
+    console.log('location', location);
+    if (pathMap[location]) {
+      return createRoute(pathMap[location], location)
+    }
+    return createRoute(null, location)
   }
   // 添加路由
   function addRoutes() {
