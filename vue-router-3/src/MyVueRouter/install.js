@@ -14,14 +14,26 @@ export default function install(Vue) {
       // 如果有 router 属性，说明是根组件
       if (this.$options.myRouter) {
         this._myRouterRoot = this
+        // 这就是 $router
         this._myRouter = this.$options.myRouter
         // 初始化路由
         this._myRouter.init(this)
+        // 响应式 current
+        // 这就是 $route
+        Vue.util.defineReactive(this, '_route', this._myRoute.history.current)
       } else {
         this._myRouterRoot = this.$parent && this.$parent._myRouterRoot
       }
     },
     destroyed() {
     }
+  })
+
+  Object.defineProperty(Vue.prototype, '$router', {
+    get() { return this._routerRoot._myRouter }
+  })
+
+  Object.defineProperty(Vue.prototype, '$route', {
+    get() { return this._routerRoot._route }
   })
 }

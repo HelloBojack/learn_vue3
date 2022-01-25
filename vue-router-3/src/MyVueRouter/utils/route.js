@@ -7,7 +7,6 @@ function formatMatch(record) {
   return res
 }
 export function createRoute(record, location) {
-  console.log('record', record);
   const route = {
     path: location.path || '/',
     matched: record ? formatMatch(record) : []
