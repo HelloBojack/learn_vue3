@@ -27,8 +27,6 @@ export default class History {
     onComplete && onComplete(route)
   }
   updateRoute(route) {
-    console.log('updateRoute', route);
-    console.log('this.cb', this.cb);
     this.current = route
     this.cb && this.cb(route)
   }

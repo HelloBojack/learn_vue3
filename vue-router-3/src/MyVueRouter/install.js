@@ -1,4 +1,5 @@
 import RouterView from './components/RouterView.js'
+import RouterLink from './components/RouterLink.js'
 
 let _Vue
 export default function install(Vue) {
@@ -44,5 +45,6 @@ export default function install(Vue) {
   })
 
   Vue.component('RouterView', RouterView)
+  Vue.component('RouterLink', RouterLink)
 
 }

@@ -1,6 +1,6 @@
 export default {
   functional: true,
-  render(h, { props, parent, data }) {
+  render(h, { parent, data }) {
     data.myRouterView = true
     let matched = parent.$myRoute.matched
     let depth = 0

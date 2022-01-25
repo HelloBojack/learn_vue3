@@ -26,7 +26,10 @@ export default class HashHistory extends History {
     })
   }
 
-  push() { }
+  push(location) {
+    this.transitionTo(location)
+    window.location.hash = `#${location}`
+  }
 
   replace() { }
 

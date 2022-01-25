@@ -2,6 +2,7 @@ import install from './install'
 import HTML5History from './history/HTML5History'
 import HashHistory from './history/HashHistory'
 import createMatcher from './matcher'
+
 export default class VueRouter {
   constructor(options) {
     this.app = null
@@ -39,6 +40,10 @@ export default class VueRouter {
   }
   match(location, current) {
     return this.matcher.match(location, current)
+  }
+
+  push(location) {
+    this.history.push(location)
   }
 }
 VueRouter.install = install
