@@ -16,7 +16,7 @@ export default class History {
       matched: ['/about','/about/a']
     }
     */
-    console.log('route', route);
+    // console.log('route', route);
     if (this.current.path === location && route.matched.length === this.current.matched.length) {
       // 相同路径
       return
@@ -27,6 +27,12 @@ export default class History {
     onComplete && onComplete(route)
   }
   updateRoute(route) {
+    console.log('updateRoute', route);
+    console.log('this.cb', this.cb);
     this.current = route
+    this.cb && this.cb(route)
+  }
+  listen(cb) {
+    this.cb = cb
   }
 };

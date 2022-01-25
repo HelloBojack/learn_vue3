@@ -1,3 +1,5 @@
+import RouterView from './components/RouterView.js'
+
 let _Vue
 export default function install(Vue) {
   if (install.installed && _Vue === Vue) return
@@ -20,7 +22,7 @@ export default function install(Vue) {
         this._myRouter.init(this)
         // 响应式 current
         // 这就是 $route
-        Vue.util.defineReactive(this, '_route', this._myRoute.history.current)
+        Vue.util.defineReactive(this, '_myRoute', this._myRouter.history.current)
       } else {
         this._myRouterRoot = this.$parent && this.$parent._myRouterRoot
       }
@@ -29,11 +31,18 @@ export default function install(Vue) {
     }
   })
 
-  Object.defineProperty(Vue.prototype, '$router', {
-    get() { return this._routerRoot._myRouter }
+  Object.defineProperty(Vue.prototype, '$myRouter', {
+    get() {
+      return this._myRouterRoot._myRouter
+    }
   })
 
-  Object.defineProperty(Vue.prototype, '$route', {
-    get() { return this._routerRoot._route }
+  Object.defineProperty(Vue.prototype, '$myRoute', {
+    get() {
+      return this._myRouterRoot._myRoute
+    }
   })
+
+  Vue.component('RouterView', RouterView)
+
 }

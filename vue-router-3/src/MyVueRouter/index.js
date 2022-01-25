@@ -32,9 +32,10 @@ export default class VueRouter {
     history.transitionTo(history.getCurrentLocation(),
       history.setupListeners()
     )
-    // if (history instanceof HTML5History || history instanceof HashHistory) {
-
-    // }
+    // 发布订阅
+    history.listen((route) => {
+      app._myRoute = route
+    })
   }
   match(location, current) {
     return this.matcher.match(location, current)

@@ -2,8 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyVueRouter from '../MyVueRouter/index'
 import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+import AboutA from '../views/AboutA.vue'
 // Vue.use 会调用 install 方法
-Vue.use(VueRouter)
+// Vue.use(VueRouter)
 Vue.use(MyVueRouter)
 
 const routes = [
@@ -18,11 +20,12 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: About,
     children: [
       {
         path: 'a',
-        name: 'about_a'
+        name: 'about_a',
+        component: AboutA,
       }
     ]
   },
