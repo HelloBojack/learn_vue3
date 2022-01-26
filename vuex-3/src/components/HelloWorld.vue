@@ -5,6 +5,7 @@
       <p>Vue X</p>
       <p>{{ count }}</p>
       <button @click="increment">Add</button>
+      <button @click="incrementN(10)">Add 10</button>
     </div>
   </div>
 </template>
@@ -17,12 +18,15 @@ export default {
   },
   computed: {
     count() {
-      return this.$store.state.count;
+      return this.$myStore.state.count;
     },
   },
   methods: {
     increment() {
-      this.$store.commit("increment");
+      this.$myStore.commit("increment");
+    },
+    incrementN(playload) {
+      this.$myStore.commit("incrementN", playload);
     },
   },
 };

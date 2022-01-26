@@ -1,19 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import MyVueX from '../MyVueX'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+Vue.use(MyVueX)
+
+export default new MyVueX.MyStore({
   state: {
-    count: 0
+    count: 1
   },
   mutations: {
     increment(state) {
       state.count++
+    },
+    incrementN(state, playload) {
+      state.count = state.count + playload
     }
   },
-  actions: {
-  },
-  modules: {
-  }
+  // actions: {
+  // },
+  // modules: {
+  // }
 })
