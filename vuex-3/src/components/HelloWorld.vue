@@ -5,6 +5,7 @@
       <p>Vue X</p>
       <p>{{ count }}</p>
       <button @click="increment">Add</button>
+      <button @click="incrementAsync">Add Sync</button>
       <button @click="incrementN(10)">Add 10</button>
     </div>
   </div>
@@ -27,6 +28,9 @@ export default {
     },
     incrementN(playload) {
       this.$myStore.commit("incrementN", playload);
+    },
+    incrementAsync() {
+      this.$myStore.dispatch("incrementAsync");
     },
   },
 };

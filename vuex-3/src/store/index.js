@@ -18,8 +18,13 @@ export default new MyVueX.MyStore({
       state.count = state.count + playload
     }
   },
-  // actions: {
-  // },
+  actions: {
+    incrementAsync({ commit }) {
+      setTimeout(() => {
+        commit('increment')
+      }, 1000)
+    }
+  },
   // modules: {
   // }
 })
