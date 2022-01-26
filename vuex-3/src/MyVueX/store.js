@@ -3,11 +3,22 @@ let Vue
 
 export class MyStore {
   constructor(options) {
-    let { state, mutations, actions } = options
+    let { state, mutations, actions, getters } = options
 
     this.mutations = mutations
     this.actions = actions
 
+    this.getters = {}
+    for (const key in getters) {
+      let getter = getters[key]
+      Object.defineProperty(this.getters, key, {
+        get: () => {
+          return getter(this.state);
+        }
+      });
+    }
+
+    // 直接配合 get, 实例化一个 Vue, 让 state 变成响应式
     this._vm = new Vue({
       data: { state }
     })

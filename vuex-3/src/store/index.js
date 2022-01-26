@@ -10,6 +10,11 @@ export default new MyVueX.MyStore({
   state: {
     count: 1
   },
+  getters: {
+    countLength(state) {
+      return state.count.toString().length
+    }
+  },
   mutations: {
     increment(state) {
       state.count++

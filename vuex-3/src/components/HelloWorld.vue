@@ -4,6 +4,7 @@
     <div>
       <p>Vue X</p>
       <p>{{ count }}</p>
+      <p>{{ countLength }}</p>
       <button @click="increment">Add</button>
       <button @click="incrementAsync">Add Sync</button>
       <button @click="incrementN(10)">Add 10</button>
@@ -20,6 +21,9 @@ export default {
   computed: {
     count() {
       return this.$myStore.state.count;
+    },
+    countLength() {
+      return this.$myStore.getters.countLength;
     },
   },
   methods: {
