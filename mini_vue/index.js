@@ -37,9 +37,11 @@
 
 function h(tag, attrs, inner) {
   // inner 字符串或者数组
+  // 字符串 没有子元素 
   if (typeof inner === 'string') {
     return vnode(tag, attrs, undefined, inner, undefined)
   }
+  // 数组 有子元素
   if (Array.isArray(inner)) {
     return vnode(tag, attrs, inner, undefined, undefined)
   }
@@ -64,6 +66,7 @@ function patch(n1, n2) {
     undefined,
     n1
   )
+  console.log(vn1);
   let vn2 = n2
   if (vn1.tag === vn2.tag) {
     patchVnode(vn1, vn2)
@@ -83,7 +86,7 @@ function createElement(vnode) {
   } else {
     el.innerText = text
   }
-  el.element = vnode
+  vnode.element = el
   return el
 }
 
@@ -92,7 +95,7 @@ function patchVnode(vn1, vn2) {
     if (vn1.children) {
       // 前前 后后 前后 后前 查找
       // console.log(vn1.children, vn2.children);
-      updateChildren(vn1, vn1.children, vn2.children)
+      updateChildren(vn1.element, vn1.children, vn2.children)
     }
     else {
       let newElement = createElement(vn2)
@@ -109,6 +112,7 @@ function sameVnode(n1, n2) {
   return n1.key === n2.key
 }
 function updateChildren(el, c1, c2) {
+  console.log(el);
   let oldStartIndex = 0
   let oldEndIndex = c1.length - 1
   let newStartIndex = 0
@@ -138,7 +142,6 @@ function updateChildren(el, c1, c2) {
       patchVnode(oldStartVnode, newEndVnode)
       if (newEndVnode.element) newEndVnode.element = oldStartVnode.element
       // 旧前移动到旧后
-      console.log(oldEndVnode);
       el.insertBefore(oldStartVnode.element, oldEndVnode.element.nextSibling)
       oldStartVnode = c1[++oldStartIndex]
       newEndVnode = c2[--newEndIndex]
