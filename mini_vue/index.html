@@ -9,18 +9,41 @@
 </head>
 
 <body>
-
+  <div id="app">
+    This is app
+  </div>
+  <button id="btn">按钮</button>
 </body>
 <script src="./index.js"></script>
 <script>
-  h('h1', {}, 'Some title')
-  h('div', { backgroundColor: 'red', color: 'yellow' }, [
-    'Some text comes first.',
-    h('h1', 'A headline'),
-    // h(MyComponent, {
-    //   someProp: 'foobar'
-    // })
+  let app = document.getElementById('app');
+  // let app2 = h('div', {
+  //   id: 'app2'
+  // }, 'This is app2');
+  // let h1 = h('h1', {}, 'Some title')
+  let list1 = h('ul', {}, [
+    h('li', { key: 'b' }, 'Item b'),
+    h('li', { key: 'a' }, 'Item a'),
+    h('li', { key: 'c' }, 'Item c')
   ])
+  let list2 = h('ul', {}, [
+    h('li', { key: 'a' }, 'Item a'),
+    h('li', { key: 'b' }, 'Item b'),
+    h('li', { key: 'c' }, 'Item c')
+  ])
+  patch(app, list1)
+
+  document.getElementById('btn').addEventListener('click', () => {
+    patch(list1, list2)
+  })
+
+  // h('div', { backgroundColor: 'red', color: 'yellow' }, [
+  //   'Some text comes first.',
+  //   h('h1', 'A headline'),
+  //   // h(MyComponent, {
+  //   //   someProp: 'foobar'
+  //   // })
+  // ])
 </script>
 
 </html>
