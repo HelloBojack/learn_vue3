@@ -66,7 +66,6 @@ function patch(n1, n2) {
     undefined,
     n1
   )
-  console.log(vn1);
   let vn2 = n2
   if (vn1.tag === vn2.tag) {
     patchVnode(vn1, vn2)
@@ -112,7 +111,6 @@ function sameVnode(n1, n2) {
   return n1.key === n2.key
 }
 function updateChildren(el, c1, c2) {
-  console.log(el);
   let oldStartIndex = 0
   let oldEndIndex = c1.length - 1
   let newStartIndex = 0
@@ -124,12 +122,19 @@ function updateChildren(el, c1, c2) {
   let newEndVnode = c2[newEndIndex]
   // 前前 后后 前后 后前 查找
   while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
-    if (sameVnode(oldStartVnode, newStartVnode)) {
+    if (!oldStartVnode) {
+      oldStartVnode = c1[++oldStartIndex]
+    }
+    else if (!oldEndVnode) {
+      oldEndVnode = c1[--oldEndIndex]
+    }
+    else if (sameVnode(oldStartVnode, newStartVnode)) {
       console.log('1');
       patchVnode(oldStartVnode, newStartVnode)
       if (newStartVnode.element) newStartVnode.element = oldStartVnode.element
       oldStartVnode = c1[++oldStartIndex]
       newStartVnode = c2[++newStartIndex]
+
     } else if (sameVnode(oldEndVnode, newEndVnode)) {
       console.log('2');
       patchVnode(oldEndVnode, newEndVnode)
@@ -145,6 +150,7 @@ function updateChildren(el, c1, c2) {
       el.insertBefore(oldStartVnode.element, oldEndVnode.element.nextSibling)
       oldStartVnode = c1[++oldStartIndex]
       newEndVnode = c2[--newEndIndex]
+
     }
     else if (sameVnode(oldEndVnode, newStartVnode)) {
       console.log('4');
@@ -155,7 +161,42 @@ function updateChildren(el, c1, c2) {
       newStartVnode = c2[++newStartIndex]
     }
     else {
+      console.log('5');
+      let oldKeyMap = {}
+      for (let i = oldStartIndex; i <= oldEndIndex; i++) {
+        if (c1[i]?.key) {
+          oldKeyMap[c1[i].key] = i
+        }
+      }
+      let indexInOld = oldKeyMap[newStartVnode.key]
+      if (indexInOld) {
+        let oldElemnt = c1[indexInOld]
+        patchVnode(oldElemnt, newStartVnode)
+        c1[indexInOld] = undefined
+        el.insertBefore(oldElemnt.element, oldStartVnode.element)
+      } else {
+        el.insertBefore(createElement(newStartVnode), oldStartVnode.element)
+      }
+      newStartVnode = c2[++newStartIndex]
+    }
+  }
+  console.log(oldStartIndex, oldEndIndex, newStartIndex, newEndIndex);
 
+  // 新增删除
+  if (oldStartIndex > oldEndIndex) {
+    console.log('6');
+    for (let i = newStartIndex; i <= newEndIndex; i++) {
+      el.insertBefore(createElement(c2[i]), oldStartVnode.element)
+    }
+
+  } else {
+    console.log('7');
+    // console.log(oldStartIndex, oldEndIndex)
+
+    // 删除
+    for (let i = oldStartIndex; i <= oldEndIndex; i++) {
+      // console.log(c1, c1[i]);
+      el.removeChild(c1[i].element)
     }
   }
 }

@@ -22,14 +22,18 @@
   // }, 'This is app2');
   // let h1 = h('h1', {}, 'Some title')
   let list1 = h('ul', {}, [
-    h('li', { key: 'b' }, 'Item b'),
     h('li', { key: 'a' }, 'Item a'),
-    h('li', { key: 'c' }, 'Item c')
+    h('li', { key: 'b' }, 'Item b'),
+    // h('li', { key: 'c' }, 'Item c'),
+    // h('li', { key: 'd' }, 'Item d'),
+    // h('li', { key: 'e' }, 'Item e')
   ])
   let list2 = h('ul', {}, [
-    h('li', { key: 'a' }, 'Item a'),
+    h('li', { key: 'c' }, 'Item c'),
     h('li', { key: 'b' }, 'Item b'),
-    h('li', { key: 'c' }, 'Item c')
+    h('li', { key: 'e' }, 'Item e'),
+    h('li', { key: 'a' }, 'Itam a'),
+    h('li', { key: 'd' }, 'Item d'),
   ])
   patch(app, list1)
 
