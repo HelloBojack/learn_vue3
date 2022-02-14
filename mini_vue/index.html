@@ -12,6 +12,7 @@
   <div id="App">
     <div>{{ message }}</div>
     {{ message }}
+    <button @click="messagechange">Click Me!</button>
   </div>
   <div id="app">
     This is app
@@ -27,6 +28,13 @@
     el: '#App',
     data: {
       message: 'Hello Vue!'
+    },
+    methods: {
+      messagechange: function (e) {
+        // console.log(e);
+        this.message = '你好，Vue!'
+        console.log(this.message);
+      }
     },
     beforeCreate() {
       console.log('beforeCreate')
