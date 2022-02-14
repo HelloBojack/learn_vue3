@@ -9,12 +9,29 @@
 </head>
 
 <body>
+  <div id="App">
+    <div>{{ message }}</div>
+    {{ message }}
+  </div>
   <div id="app">
     This is app
   </div>
   <button id="btn">按钮</button>
 </body>
 <script src="./index.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
+
+<script src="./vue.js"></script>
+
+<script>
+  var App = new Vue({
+    el: '#App',
+    data: {
+      message: 'Hello Vue!'
+    }
+  })
+</script>
+
 <script>
   let app = document.getElementById('app');
   // let app2 = h('div', {
