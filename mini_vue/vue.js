@@ -1,10 +1,14 @@
 class Vue {
   constructor(options) {
     let { el, data, beforeCreate, created, beforeMount, mounted } = options;
+
     this.$options = options;
-    this.proxyData()
+    this.$watchEvent = {}
+
     beforeCreate && beforeCreate.call(this)
     this.$data = data
+    this.proxyData()
+
     created && created.call(this)
     this.$el = document.querySelector(el);
     beforeMount && beforeMount.call(this)
@@ -19,6 +23,9 @@ class Vue {
         },
         set(newValue) {
           this.$data[key] = newValue
+          if (this.$watchEvent[key]) {
+            this.$watchEvent[key].map(watcher => watcher.update())
+          }
         }
       })
     }
@@ -45,9 +52,28 @@ class Vue {
         let text = node.textContent
         node.textContent = text.replace(reg, (match, vmkey) => {
           vmkey = vmkey.trim()
+          if (this.hasOwnProperty(vmkey)) {
+            let watcher = new Watcher(this, vmkey, node)
+            if (this.$watchEvent[vmkey]) {
+              this.$watchEvent[vmkey].push(watcher)
+            } else {
+              this.$watchEvent[vmkey] = [watcher]
+            }
+          }
           return this.$data[vmkey]
         })
       }
     })
+  }
+}
+
+class Watcher {
+  constructor(vm, key, node) {
+    this.vm = vm
+    this.key = key
+    this.node = node
+  }
+  update() {
+    this.node.textContent = this.vm[this.key]
   }
 }
