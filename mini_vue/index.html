@@ -13,6 +13,8 @@
     <div>{{ message }}</div>
     {{ message }}
     <button @click="messagechange">Click Me!</button>
+    <div>{{inputValue}}</div>
+    <input v-modal="inputValue" type="text">
   </div>
   <div id="app">
     This is app
@@ -27,7 +29,8 @@
   var App = new Vue({
     el: '#App',
     data: {
-      message: 'Hello Vue!'
+      message: 'Hello Vue!',
+      inputValue: 'inputValueStr'
     },
     methods: {
       messagechange: function (e) {

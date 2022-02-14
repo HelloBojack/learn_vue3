@@ -34,13 +34,17 @@ class Vue {
     el.childNodes.forEach(node => {
       // node
       if (node.nodeType === 1) {
-        console.dir(node);
         if (node.attributes.length > 0) {
-          let attr = node.attributes[0];
-          if (attr.name === '@click') {
-            let name = attr.value;
+          let { name, value } = node.attributes[0];
+          if (name === '@click') {
             node.addEventListener('click', e => {
-              this.$options.methods[name].call(this, e)
+              this.$options.methods[value].call(this, e)
+            })
+          }
+          if (name === 'v-modal') {
+            node.value = this[value]
+            node.addEventListener('input', e => {
+              this[value] = e.target.value
             })
           }
         }
